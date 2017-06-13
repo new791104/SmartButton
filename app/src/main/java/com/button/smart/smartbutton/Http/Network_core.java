@@ -36,6 +36,19 @@ public class Network_core{
     }
 
     /*
+    * CallBack
+    * */
+    private netCallback mCallback;
+
+    public interface netCallback{
+        public abstract String response(String response);
+    }
+
+    public void setCallback(netCallback callback){
+        this.mCallback =callback;
+    }
+
+    /*
     * TODO 會員系統操作_API ##############################
     * */
 
@@ -47,7 +60,7 @@ public class Network_core{
      * @param user 使用者名稱
      * @return    void
      */
-    /*
+
     public void button_findAll(String user){
         String url = SERVER_HOST + "/findAll";
         mcall = mokHttpClient
@@ -57,15 +70,19 @@ public class Network_core{
                 .build();
         mcall.execute(new StringCallback() {
             @Override
-            public void onError(Call call, Exception e) {
+            public void onError(Call call, Exception e, int id) {
+
             }
+
             @Override
-            public void onResponse(String response) {
+            public void onResponse(String response, int id) {
                 Log.e("Button FindAll:", response);
                 mCallback.response(response);
             }
+
         });
     }
-*/
+
+
 
 }
