@@ -68,6 +68,7 @@ public class Network_core{
                 .url(url)
                 .addParams("user", user)
                 .build();
+
         mcall.execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e, int id) {
@@ -79,10 +80,73 @@ public class Network_core{
                 Log.e("Button FindAll:", response);
                 mCallback.response(response);
             }
-
         });
     }
 
+    public void button_turn(String user){
+        String url = SERVER_HOST + "/findAll";
+        mcall = mokHttpClient
+                .post()
+                .url(url)
+                .addParams("user", user)
+                .build();
 
+        mcall.execute(new StringCallback() {
+            @Override
+            public void onError(Call call, Exception e, int id) {
+
+            }
+
+            @Override
+            public void onResponse(String response, int id) {
+                Log.e("Button FindAll:", response);
+                mCallback.response(response);
+            }
+        });
+    }
+
+    public void button_delete(String user){
+        String url = SERVER_HOST + "/findAll";
+        mcall = mokHttpClient
+                .post()
+                .url(url)
+                .addParams("user", user)
+                .build();
+
+        mcall.execute(new StringCallback() {
+            @Override
+            public void onError(Call call, Exception e, int id) {
+
+            }
+
+            @Override
+            public void onResponse(String response, int id) {
+                Log.e("Button FindAll:", response);
+                mCallback.response(response);
+            }
+        });
+    }
+
+    public void button_update(String user){
+        String url = SERVER_HOST + "/findAll";
+        mcall = mokHttpClient
+                .post()
+                .url(url)
+                .addParams("user", user)
+                .build();
+
+        mcall.execute(new StringCallback() {
+            @Override
+            public void onError(Call call, Exception e, int id) {
+
+            }
+
+            @Override
+            public void onResponse(String response, int id) {
+                Log.e("Button FindAll:", response);
+                mCallback.response(response);
+            }
+        });
+    }
 
 }
