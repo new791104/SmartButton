@@ -8,19 +8,12 @@ public class ButtonItem {
     private String _id;
     private String user;
     private String bid;
-
-    public String getGroup() {
-        return group;
-    }
-
-    public void setGroup(String group) {
-        this.group = group;
-    }
-
     private String group;
     private String name;
     private String description;
     private Boolean status;
+
+
 
     public ButtonItem(String _id, String user, String bid, String group, String name, String description, Boolean status) {
         this._id = _id;
@@ -32,8 +25,14 @@ public class ButtonItem {
         this.status = status;
     }
 
-    public String get_id() {
-        return _id;
+    public String get_id() { return _id; }
+
+    public String getGroup() {
+        return group;
+    }
+
+    public void setGroup(String group) {
+        this.group = group;
     }
 
     public void set_id(String _id) {

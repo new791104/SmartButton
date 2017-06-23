@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.button.smart.smartbutton.Activity.ButAct;
 import com.button.smart.smartbutton.Activity.MainActivity;
 import com.button.smart.smartbutton.Global.GV;
+import com.button.smart.smartbutton.Http.Network_core;
 import com.button.smart.smartbutton.Objects.ButtonItem;
 import com.button.smart.smartbutton.R;
 import com.kyleduo.switchbutton.SwitchButton;
@@ -86,6 +87,8 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         viewHolder.sb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                Network_core nCore = new Network_core(mContext);
                 GV.bItems.get(position).setStatus(isChecked);
                 if (isChecked) {
                     viewHolder.nameTextView.setTextColor(Color.parseColor("#525252"));
@@ -95,6 +98,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
                     viewHolder.nameTextView.setTextColor(Color.parseColor("#ffffff"));
                     viewHolder.itemView.setBackgroundColor(Color.parseColor("#525252"));
                 }
+                nCore.button_turn(GV.bItems.get(position).getUser(), GV.bItems.get(position).getBid(), isChecked);
                 Log.d("debug", "isChecked: " +  GV.bItems.get(position).getStatus());
             }
         });

@@ -36,19 +36,6 @@ public class Network_core{
     }
 
     /*
-    * CallBack
-    * */
-    private netCallback mCallback;
-
-    public interface netCallback{
-        public abstract String response(String response);
-    }
-
-    public void setCallback(netCallback callback){
-        this.mCallback =callback;
-    }
-
-    /*
     * TODO 會員系統操作_API ##############################
     * */
 
@@ -61,12 +48,39 @@ public class Network_core{
      * @return    void
      */
 
-    public void button_findAll(String user){
+    public void button_findAll(String user) {
+        Log.e("debug", "in button_findAll");
         String url = SERVER_HOST + "/findAll";
+        Log.e("test url", url);
         mcall = mokHttpClient
                 .post()
                 .url(url)
                 .addParams("user", user)
+                .build();
+
+        mcall.execute(new StringCallback() {
+            @Override
+            public void onError(Call call, Exception e, int id) {
+                Log.e("error", e.toString());
+            }
+
+            @Override
+            public void onResponse(String response, int id) {
+                Log.e("button_findAll:", response);
+                mCallback.response(response);
+            }
+        });
+    }
+
+    public void button_turn(String user, String bid, Boolean status) {
+        String url = SERVER_HOST + "/turn";
+
+        mcall = mokHttpClient
+                .post()
+                .url(url)
+                .addParams("user", user)
+                .addParams("bid", bid)
+                .addParams("status", status.toString())
                 .build();
 
         mcall.execute(new StringCallback() {
@@ -77,18 +91,21 @@ public class Network_core{
 
             @Override
             public void onResponse(String response, int id) {
-                Log.e("Button FindAll:", response);
-                mCallback.response(response);
+                Log.e("button_turn:", response);
+                //mCallback.response(response);
             }
         });
     }
 
-    public void button_turn(String user){
-        String url = SERVER_HOST + "/findAll";
+    public void button_add(String user, String bid, String name, String description) {
+        String url = SERVER_HOST + "/add";
         mcall = mokHttpClient
                 .post()
                 .url(url)
                 .addParams("user", user)
+                .addParams("bid", bid)
+                .addParams("name", name)
+                .addParams("description", description)
                 .build();
 
         mcall.execute(new StringCallback() {
@@ -99,18 +116,19 @@ public class Network_core{
 
             @Override
             public void onResponse(String response, int id) {
-                Log.e("Button FindAll:", response);
+                Log.e("button_add:", response);
                 mCallback.response(response);
             }
         });
     }
 
-    public void button_delete(String user){
-        String url = SERVER_HOST + "/findAll";
+    public void button_delete(String user, String bid) {
+        String url = SERVER_HOST + "/delete";
         mcall = mokHttpClient
                 .post()
                 .url(url)
                 .addParams("user", user)
+                .addParams("bid", bid)
                 .build();
 
         mcall.execute(new StringCallback() {
@@ -121,18 +139,23 @@ public class Network_core{
 
             @Override
             public void onResponse(String response, int id) {
-                Log.e("Button FindAll:", response);
+                Log.e("button_delete:", response);
                 mCallback.response(response);
             }
         });
     }
 
-    public void button_update(String user){
-        String url = SERVER_HOST + "/findAll";
+    public void button_update(String user, String bid, String group, String name, String description, String status) {
+        String url = SERVER_HOST + "/update";
         mcall = mokHttpClient
                 .post()
                 .url(url)
                 .addParams("user", user)
+                .addParams("bid", bid)
+                .addParams("group", group)
+                .addParams("name", name)
+                .addParams("description", description)
+                .addParams("status", status)
                 .build();
 
         mcall.execute(new StringCallback() {
@@ -143,10 +166,23 @@ public class Network_core{
 
             @Override
             public void onResponse(String response, int id) {
-                Log.e("Button FindAll:", response);
+                Log.e("button_update:", response);
                 mCallback.response(response);
             }
         });
     }
 
+
+    /*
+    * CallBack
+    * */
+    private netCallback mCallback;
+
+    public interface netCallback{
+        public abstract String response(String response);
+    }
+
+    public void setCallback(netCallback callback){
+        this.mCallback = callback;
+    }
 }

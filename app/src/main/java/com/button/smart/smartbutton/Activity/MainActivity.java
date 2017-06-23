@@ -22,8 +22,16 @@ import android.widget.ListView;
 
 import com.button.smart.smartbutton.Adapter.MyRecyclerViewAdapter;
 import com.button.smart.smartbutton.Global.GV;
+import com.button.smart.smartbutton.Http.Network_core;
 import com.button.smart.smartbutton.Objects.ButtonItem;
 import com.button.smart.smartbutton.R;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import android.os.Handler;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.LogRecord;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -34,21 +42,114 @@ public class MainActivity extends AppCompatActivity
     private ActionBarDrawerToggle drawerToggle;
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
+    private Network_core nCore;
+    private String old_response = new String();
 
     //介面上的 button action
     private ButAct butact = new ButAct();
+    private Handler handler = new Handler();
+    private Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            final Gson gson = new Gson();
+            // 更新Buttons
+            //Get all information
+            Log.e("debug", "start findAll");
+            nCore.button_findAll("charlie");
+            nCore.setCallback(new Network_core.netCallback() {
+                @Override
+                public String response(String response) {
+                    Log.e("debug", "response");
+                    ArrayList<ButtonItem> rItems = gson.fromJson(response, new TypeToken<List<ButtonItem>>(){}.getType());
+
+                    // bItems_size: APP的bItems大小, rItems_size: response的bItem大小
+                    int i, bItems_size = GV.bItems.size(), rItems_size = rItems.size();
+
+                    Log.e("bItems size", "" + GV.bItems.size());
+                    Log.e("rItem size", "" + rItems.size());
+
+                    if (GV.bItems.size() == 0) {    // 第一次載入
+                        old_response = response;
+                        for (i = 0; i < rItems_size; i++) {
+                            if (rItems_size != rItems.size()) {
+                                i = 0;
+                                rItems_size = rItems.size();
+                                continue;
+                            }
+                            //ButtonItem rItem = rItems.get(i);
+                            Log.e("debug", "GV.bItems.add(rItems.get(i));");
+                            GV.bItems.add(rItems.get(i));
+                        }
+                    }
+                    else {
+                        if(response.equals(old_response)){      // button數量不變, 更新資訊
+                            for (i = 0; i < rItems_size; i++) {
+                                if (rItems_size != rItems.size()) {
+                                    i = 0;
+                                    rItems_size = rItems.size();
+                                    continue;
+                                }
+                                ButtonItem rItem = rItems.get(i);
+                                GV.bItems.get(i).setName(rItem.getName());
+                                GV.bItems.get(i).setBid(rItem.getBid());
+                                GV.bItems.get(i).setGroup(rItem.getGroup());
+                                GV.bItems.get(i).setDescription(rItem.getDescription());
+                                GV.bItems.get(i).setStatus(rItem.getStatus());
+                            }
+                        }
+                        else if (old_response.length() < response.length()) {     // button數量增加
+                                for (i = 0; i < rItems_size; i++) {
+                                    if (rItems_size != rItems.size()) {
+                                        i = 0;
+                                        rItems_size = rItems.size();
+                                        continue;
+                                    }
+                                    if (old_response.indexOf(rItems.get(i).get_id().toString()) < 0) {
+                                        //GV.bItems.add(new ButtonItem(rItems.get(i).get_id(), rItems.get(i).getUser(), rItems.get(i).getBid(), rItems.get(i).getGroup(), rItems.get(i).getName(), rItems.get(i).getDescription(), rItems.get(i).getStatus()));
+                                        GV.bItems.add(rItems.get(i));
+                                        bRecyclerView.getAdapter().notifyDataSetChanged();
+                                        Log.e("debug", "GV.bitems.size" + GV.bItems.size());
+                                    }
+                                }
+                        }
+
+                        else if (old_response.length() > response.length()) {     // button數量減少
+                            for (i = 0; i < GV.bItems.size(); i++) {
+                                if (rItems_size != rItems.size()) {
+                                    i = 0;
+                                    rItems_size = rItems.size();
+                                    continue;
+                                }
+                                if (response.indexOf(GV.bItems.get(i).get_id().toString()) < 0) {
+                                    GV.bItems.remove(i);
+                                    bRecyclerView.getAdapter().notifyDataSetChanged();
+                                }
+                            }
+                        }
+                        old_response = response;
+                    }
+
+                    bRecyclerView.getAdapter().notifyDataSetChanged();
+                    return null;
+                }
+            });
+
+            handler.postDelayed(this, 5000);
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Log.d("debug", "###onCreate###");
+        nCore = new Network_core(this);
 
         //關閉系統狀態列
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         //make some fake data
-        initData();
+        //initData();
 
         // 開關list
         bRecyclerView = (RecyclerView) findViewById(R.id.main_RecyclerView);
@@ -72,8 +173,11 @@ public class MainActivity extends AppCompatActivity
         final ActionBar ab = getSupportActionBar();
         //ab.setHomeAsUpIndicator(R.drawable.ic_menu);
         ab.setDisplayHomeAsUpEnabled(true);
-
         setUpDrawer();
+
+        //監聽時間變化
+        handler.postDelayed(runnable, 1000);
+
 //        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 //        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
 //                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -101,7 +205,7 @@ public class MainActivity extends AppCompatActivity
      */
     private  void initData() {
         for (int i = 0; i < 20; i++) {
-            GV.bItems.add(i, new ButtonItem("ABC123", "user0", "000" + i, "myGroup", "test" + i, "description", false));
+            GV.bItems.add(i, new ButtonItem("ABC", "user0", "000" + i, "myGroup", "test" + i, "description", false));
             //Log.e("debug", bItems.toString());
         }
     }
@@ -125,9 +229,10 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    /*
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        Log.d("debug", "###onOptionsItemSelected###");
+    public boolean onOptionbItemsSelected(MenuItem item) {
+        Log.d("debug", "###onOptionbItemsSelected###");
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
@@ -138,8 +243,8 @@ public class MainActivity extends AppCompatActivity
             return true;
         }
 
-        return super.onOptionsItemSelected(item);
-    }
+        return super.onOptionbItemsSelected(item);
+    }*/
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override

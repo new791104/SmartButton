@@ -46,7 +46,7 @@
         app:kswTextOn="On"
         app:kswThumbColor="@color/cardview_light_background"
         app:kswTintColor="@color/ksw_md_ripple_checked"
-        android:layout_marginEnd="115dp"
+        android:layout_marginEnd="100dp"
         android:layout_alignTop="@+id/id"
         android:layout_alignParentEnd="true" />
 
