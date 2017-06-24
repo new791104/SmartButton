@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private RecyclerView bRecyclerView;
+    private MyRecyclerViewAdapter bAdapter;
     private DrawerLayout layDrawer;
     private ListView lstDrawer;
     private ActionBarDrawerToggle drawerToggle;
@@ -152,9 +153,12 @@ public class MainActivity extends AppCompatActivity
         //initData();
 
         // 開關list
+        bAdapter = new MyRecyclerViewAdapter(MainActivity.this, GV.bItems);
         bRecyclerView = (RecyclerView) findViewById(R.id.main_RecyclerView);
-        bRecyclerView.setAdapter(new MyRecyclerViewAdapter(MainActivity.this, GV.bItems));     //設定適配器
+        bRecyclerView.setAdapter(bAdapter);     //設定適配器
         bRecyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+        // RecyclerView Header
+        setHeaderView(bRecyclerView);
 
         // 右下角選單
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -186,6 +190,11 @@ public class MainActivity extends AppCompatActivity
 
 //        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
 //        navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    private void setHeaderView(RecyclerView view) {
+        View header = LayoutInflater.from(this).inflate(R.layout.rheader, view, false);
+        bAdapter.setHeaderView(header);
     }
 
     private ListView mLvLeftMenu;

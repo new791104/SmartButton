@@ -11,5 +11,11 @@
     <color name="black1">#525252</color>
     <color name="black2">#414141</color>
     <color name="black3">#313131</color>
+    <color name="black4">#2A363B</color>
+
+    <color name="set2_red1">#CF4647</color>
+    <color name="set2_yellow1">#F5D061</color>
+    <color name="set2_black1">#2A363B</color>
+    <color name="set2_white1">#F8F6F6</color>
 
 </resources>
