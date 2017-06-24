@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
+    android:background="@color/black2"
     android:layout_height="100dp">
 
     <TextView
@@ -11,19 +12,20 @@
         android:layout_height="match_parent"
         android:background="@color/black2"
         android:gravity="center"
-        android:text="Lab 406"
+        android:text="Smart Button"
         android:textColor="@color/set2_white1"
-        android:textSize="50sp"
+        android:textSize="40sp"
         android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="78dp" />
 
     <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="match_parent"
+        android:id="@+id/title_pic"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
+        app:srcCompat="@drawable/light_bulb"
+        android:layout_marginStart="26dp"
         android:layout_centerVertical="true"
-        android:layout_marginEnd="304dp"
-        app:srcCompat="@drawable/light_bulb" />
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>
