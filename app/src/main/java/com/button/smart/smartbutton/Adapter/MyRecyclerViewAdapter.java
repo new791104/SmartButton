@@ -145,6 +145,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
                 Network_core nCore = new Network_core(mContext);
                 GV.bItems.get(bPosition).setStatus(isChecked);
+                GV.refresh_time = 10;
                 if (isChecked) {
                     viewHolder.nameTextView.setTextColor(Color.parseColor("#525252"));
                     viewHolder.itemView.setBackgroundColor(Color.parseColor("#ffffff"));

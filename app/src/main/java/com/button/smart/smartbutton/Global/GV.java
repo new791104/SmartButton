@@ -11,4 +11,5 @@ import java.util.List;
 
 public class GV {
     public static List<ButtonItem> bItems = new ArrayList<ButtonItem>();
+    public static int refresh_time = 0;
 }

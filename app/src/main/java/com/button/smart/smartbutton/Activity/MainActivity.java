@@ -84,24 +84,30 @@ public class MainActivity extends AppCompatActivity
                         }
                     }
                     else {
-                        if(response.equals(old_response)){      // button數量不變, 更新資訊
-                            for (i = 0; i < rItems_size; i++) {
-                                if (rItems_size != rItems.size()) {
-                                    i = 0;
-                                    rItems_size = rItems.size();
-                                    continue;
-                                }
-                                if(!old_response.equals(response)) {
-                                    ButtonItem rItem = rItems.get(i);
-                                    GV.bItems.get(i).setName(rItem.getName());
-                                    GV.bItems.get(i).setBid(rItem.getBid());
-                                    GV.bItems.get(i).setGroup(rItem.getGroup());
-                                    GV.bItems.get(i).setDescription(rItem.getDescription());
-                                    GV.bItems.get(i).setStatus(rItem.getStatus());
-                                }
+                        if (rItems.size() == GV.bItems.size()){      // button數量不變, 更新資訊
+                            Log.e("old_response", old_response);
+                            if (!old_response.equals(response)) {
+                                //if (GV.refresh_time <= 0) {
+                                    for (i = 0; i < rItems_size; i++) {
+                                        if (rItems_size != rItems.size()) {
+                                            i = 0;
+                                            rItems_size = rItems.size();
+                                            continue;
+                                        }
+                                        Log.e("check", "" + rItems.get(0).getStatus());
+                                        ButtonItem rItem = rItems.get(i);
+                                        GV.bItems.get(i).setName(rItem.getName());
+                                        GV.bItems.get(i).setBid(rItem.getBid());
+                                        GV.bItems.get(i).setGroup(rItem.getGroup());
+                                        GV.bItems.get(i).setDescription(rItem.getDescription());
+                                        GV.bItems.get(i).setStatus(rItem.getStatus());
+                                    }
+//                                } else {
+//                                    GV.refresh_time--;
+//                                }
                             }
                         }
-                        else if (old_response.length() < response.length()) {     // button數量增加
+                        else if (GV.bItems.size() < rItems.size()) {     // button數量增加
                                 for (i = 0; i < rItems_size; i++) {
                                     if (rItems_size != rItems.size()) {
                                         i = 0;
@@ -117,7 +123,7 @@ public class MainActivity extends AppCompatActivity
                                 }
                         }
 
-                        else if (old_response.length() > response.length()) {     // button數量減少
+                        else if (GV.bItems.size() > rItems.size()) {     // button數量減少
                             for (i = 0; i < GV.bItems.size(); i++) {
                                 if (rItems_size != rItems.size()) {
                                     i = 0;
