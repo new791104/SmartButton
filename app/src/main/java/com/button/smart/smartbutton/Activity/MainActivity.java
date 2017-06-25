@@ -85,9 +85,10 @@ public class MainActivity extends AppCompatActivity
                     }
                     else {
                         if (rItems.size() == GV.bItems.size()){      // button數量不變, 更新資訊
-                            Log.e("old_response", old_response);
-                            if (!old_response.equals(response)) {
-                                //if (GV.refresh_time <= 0) {
+                            //Log.e("old_response", old_response);
+                            Log.e("refresh_time", "" + GV.refresh_time);
+                            //if (!old_response.equals(response)) {
+                                if (GV.refresh_time <= 0) {
                                     for (i = 0; i < rItems_size; i++) {
                                         if (rItems_size != rItems.size()) {
                                             i = 0;
@@ -102,10 +103,10 @@ public class MainActivity extends AppCompatActivity
                                         GV.bItems.get(i).setDescription(rItem.getDescription());
                                         GV.bItems.get(i).setStatus(rItem.getStatus());
                                     }
-//                                } else {
-//                                    GV.refresh_time--;
-//                                }
-                            }
+                                } else {
+                                    GV.refresh_time--;
+                                }
+                            //}
                         }
                         else if (GV.bItems.size() < rItems.size()) {     // button數量增加
                                 for (i = 0; i < rItems_size; i++) {

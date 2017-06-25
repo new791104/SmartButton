@@ -163,10 +163,12 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         if (GV.bItems.get(bPosition).getStatus()) {
             viewHolder.nameTextView.setTextColor(Color.parseColor("#525252"));
             viewHolder.itemView.setBackgroundColor(Color.parseColor("#F8F6F6"));
+            viewHolder.sb.setCheckedImmediatelyNoEvent(true);
         }
         else {
             viewHolder.nameTextView.setTextColor(Color.parseColor("#F8F6F6"));
             viewHolder.itemView.setBackgroundColor(Color.parseColor("#525252"));
+            viewHolder.sb.setCheckedImmediatelyNoEvent(false);
         }
 
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
