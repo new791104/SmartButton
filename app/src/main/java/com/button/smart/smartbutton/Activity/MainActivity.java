@@ -1,5 +1,6 @@
 package com.button.smart.smartbutton.Activity;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
@@ -90,12 +91,14 @@ public class MainActivity extends AppCompatActivity
                                     rItems_size = rItems.size();
                                     continue;
                                 }
-                                ButtonItem rItem = rItems.get(i);
-                                GV.bItems.get(i).setName(rItem.getName());
-                                GV.bItems.get(i).setBid(rItem.getBid());
-                                GV.bItems.get(i).setGroup(rItem.getGroup());
-                                GV.bItems.get(i).setDescription(rItem.getDescription());
-                                GV.bItems.get(i).setStatus(rItem.getStatus());
+                                if(!old_response.equals(response)) {
+                                    ButtonItem rItem = rItems.get(i);
+                                    GV.bItems.get(i).setName(rItem.getName());
+                                    GV.bItems.get(i).setBid(rItem.getBid());
+                                    GV.bItems.get(i).setGroup(rItem.getGroup());
+                                    GV.bItems.get(i).setDescription(rItem.getDescription());
+                                    GV.bItems.get(i).setStatus(rItem.getStatus());
+                                }
                             }
                         }
                         else if (old_response.length() < response.length()) {     // button數量增加
@@ -135,7 +138,7 @@ public class MainActivity extends AppCompatActivity
                 }
             });
 
-            handler.postDelayed(this, 5000);
+            handler.postDelayed(this, 1000);
         }
     };
 
@@ -279,5 +282,18 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    //螢幕旋轉時的處置
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        // TODO Auto-generated method stub
+        super.onConfigurationChanged(newConfig);
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            // 什麼都不用寫
+        }
+        else {
+            // 什麼都不用寫
+        }
     }
 }

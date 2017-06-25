@@ -81,6 +81,7 @@ public class Network_core{
                 .addParams("user", user)
                 .addParams("bid", bid)
                 .addParams("status", status.toString())
+                .addParams("goto", "Gateway")
                 .build();
 
         mcall.execute(new StringCallback() {
