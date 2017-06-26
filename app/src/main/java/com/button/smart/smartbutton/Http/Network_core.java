@@ -98,13 +98,14 @@ public class Network_core{
         });
     }
 
-    public void button_add(String user, String bid, String name, String description) {
+    public void button_add(String user, String bid, String group, String name, String description) {
         String url = SERVER_HOST + "/add";
         mcall = mokHttpClient
                 .post()
                 .url(url)
                 .addParams("user", user)
                 .addParams("bid", bid)
+                .addParams("group", group)
                 .addParams("name", name)
                 .addParams("description", description)
                 .build();
@@ -112,7 +113,7 @@ public class Network_core{
         mcall.execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e, int id) {
-
+                Log.e("error", e.toString());
             }
 
             @Override
@@ -146,7 +147,7 @@ public class Network_core{
         });
     }
 
-    public void button_update(String user, String bid, String group, String name, String description, String status) {
+    public void button_update(String user, String bid, String group, String name, String description) {
         String url = SERVER_HOST + "/update";
         mcall = mokHttpClient
                 .post()
@@ -156,7 +157,6 @@ public class Network_core{
                 .addParams("group", group)
                 .addParams("name", name)
                 .addParams("description", description)
-                .addParams("status", status)
                 .build();
 
         mcall.execute(new StringCallback() {

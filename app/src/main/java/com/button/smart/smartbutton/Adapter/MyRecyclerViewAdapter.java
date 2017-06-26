@@ -135,6 +135,15 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         final int bPosition = position - 1;
         ButtonItem bItem = GV.bItems.get(bPosition);
 
+        viewHolder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(final View view) {
+                final Context context = view.getContext();
+                butact.check_delete(view, GV.bItems.get(bPosition).getBid());
+                return false;
+            }
+        });
+
         viewHolder.nameTextView.setText(String.valueOf(bItem.getName()));
         //viewHolder.contentTextView.setText(String.valueOf(bItem.getDescription()));
         viewHolder.sb.setOnCheckedChangeListener(null);
@@ -155,7 +164,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
                     viewHolder.itemView.setBackgroundColor(Color.parseColor("#525252"));
                 }
                 nCore.button_turn(GV.bItems.get(bPosition).getUser(), GV.bItems.get(bPosition).getBid(), isChecked);
-                Log.d("debug", "isChecked: " +  GV.bItems.get(bPosition).getStatus());
+                //Log.d("debug", "isChecked: " +  GV.bItems.get(bPosition).getStatus());
             }
         });
 

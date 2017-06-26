@@ -56,19 +56,19 @@ public class MainActivity extends AppCompatActivity
             final Gson gson = new Gson();
             // 更新Buttons
             //Get all information
-            Log.e("debug", "start findAll");
-            nCore.button_findAll("charlie");
+            //Log.e("debug", "start findAll");
+            nCore.button_findAll(GV.username);
             nCore.setCallback(new Network_core.netCallback() {
                 @Override
                 public String response(String response) {
-                    Log.e("debug", "response");
+                    //Log.e("debug", "response");
                     ArrayList<ButtonItem> rItems = gson.fromJson(response, new TypeToken<List<ButtonItem>>(){}.getType());
 
                     // bItems_size: APP的bItems大小, rItems_size: response的bItem大小
                     int i, bItems_size = GV.bItems.size(), rItems_size = rItems.size();
 
-                    Log.e("bItems size", "" + GV.bItems.size());
-                    Log.e("rItem size", "" + rItems.size());
+                    //Log.e("bItems size", "" + GV.bItems.size());
+                    //Log.e("rItem size", "" + rItems.size());
 
                     if (GV.bItems.size() == 0) {    // 第一次載入
                         old_response = response;
@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity
                     else {
                         if (rItems.size() == GV.bItems.size()){      // button數量不變, 更新資訊
                             //Log.e("old_response", old_response);
-                            Log.e("refresh_time", "" + GV.refresh_time);
+                            //Log.e("refresh_time", "" + GV.refresh_time);
                             //if (!old_response.equals(response)) {
                                 if (GV.refresh_time <= 0) {
                                     for (i = 0; i < rItems_size; i++) {
@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity
                                             rItems_size = rItems.size();
                                             continue;
                                         }
-                                        Log.e("check", "" + rItems.get(0).getStatus());
+                                        //Log.e("check", "" + rItems.get(0).getStatus());
                                         ButtonItem rItem = rItems.get(i);
                                         GV.bItems.get(i).setName(rItem.getName());
                                         GV.bItems.get(i).setBid(rItem.getBid());
@@ -119,7 +119,7 @@ public class MainActivity extends AppCompatActivity
                                         //GV.bItems.add(new ButtonItem(rItems.get(i).get_id(), rItems.get(i).getUser(), rItems.get(i).getBid(), rItems.get(i).getGroup(), rItems.get(i).getName(), rItems.get(i).getDescription(), rItems.get(i).getStatus()));
                                         GV.bItems.add(rItems.get(i));
                                         bRecyclerView.getAdapter().notifyDataSetChanged();
-                                        Log.e("debug", "GV.bitems.size" + GV.bItems.size());
+                                        //Log.e("debug", "GV.bitems.size" + GV.bItems.size());
                                     }
                                 }
                         }
